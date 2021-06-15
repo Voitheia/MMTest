@@ -1,9 +1,17 @@
-from Flask_Test1 import db
 from datetime import datetime
+from Flask_Test1 import db, login_manager
+from flask_login import UserMixin
+
+#login management
+
+@login_manager.user_loader #tells login manager that this is the user loader function
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 #this is basically creating the tables for the database
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -11,7 +19,7 @@ class User(db.Model):
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True) # the backref allows the posts to reference the users without needing a column in the posts table
 
-    def __repr__(self):
+    def __repr__(self): #this is what gets printed out for the User
         return f"User('{self.username}','{self.email}','{self.image_file}')"
 
 class Post(db.Model):
@@ -21,8 +29,10 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __repr__(self):
+    def __repr__(self): #this is what gets printed out for the Post
         return f"Post('{self.title}','{self.date_posted}')"
+
+
 
 #--------------------info about database stuff with python--------------------#
 #
