@@ -1,0 +1,20 @@
+{% extends "layout.html" %} {# this tells jinja that we are using a template #}
+{% block content %} {# this piece of code tells jinja where to put the html for this page in the parent template #}
+    <h1>greeting this is home page</h1>
+    <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+    <p>theres no place like 127.0.0.1 :)))))))</p>
+
+    {% for post in posts %}
+        <!-- https://github.com/CoreyMSchafer/code_snippets/blob/master/Python/Flask_Blog/snippets/article.html -->
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                <a class="mr-2" href="#">{{ post.author }}</a>
+                <small class="text-muted">{{ post.date_posted }}</small>
+                </div>
+                <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+                <p class="article-content">{{ post.content }}</p>
+            </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
